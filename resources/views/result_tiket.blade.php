@@ -34,7 +34,7 @@
         <tbody>
             @foreach ($tiket as $penumpang)
             <tr>
-                <td>{{ $penumpang['nama_penumpang'] }}</td>
+                <td>{{ $penumpang->user->name }}</td>
                 <td>{{ \Carbon\Carbon::parse($penumpang['tanggal_keberangkatan'])->format('d M Y H:i') }}</td>
                 <td>{{ $penumpang['asal'] }}</td>
                 <td>{{ $penumpang['tujuan'] }}</td>

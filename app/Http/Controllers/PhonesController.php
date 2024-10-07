@@ -2,28 +2,26 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Tiket;
 use App\Models\User;
+use App\Models\phones;
 use Illuminate\Http\Request;
-use PHPUnit\Framework\Attributes\Ticket;
 
-class TiketController extends Controller
+class PhonesController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $data = User::all();
-        return view("tiket",     compact('data'));
+        //
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function relasiOneToMany()
+    public function create()
     {
-        return $data = User::with('tikets')->get();
+        //
     }
 
     /**
@@ -31,25 +29,21 @@ class TiketController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request -> all();
-        unset($data['_token']);
-        Tiket::insert(values:$data);
-        return redirect('/show_data');
+        //
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Tiket $tiket)
+    public function show(phones $phones)
     {
-        $tiket = Tiket::all();
-        return view('result_tiket', compact('tiket'));
+        //
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Tiket $tiket)
+    public function edit(phones $phones)
     {
         //
     }
@@ -57,7 +51,7 @@ class TiketController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Tiket $tiket)
+    public function update(Request $request, phones $phones)
     {
         //
     }
@@ -65,8 +59,8 @@ class TiketController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Tiket $tiket)
+    public function relasiOneToOne(phones $phones)
     {
-        //
+        return $data = User::with('phone')->get();
     }
 }

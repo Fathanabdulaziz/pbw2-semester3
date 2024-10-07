@@ -9,9 +9,12 @@
 <body>
     <form action="/tiket" method="POST">
         @csrf
-        <label for="">Nama Penumpang</label>
-        <input type="text" name="nama_penumpang" id="nama_penumpang" placeholder="namanya siapa sayang" class="form-control"> <br />
-
+        <label for="userIdField">Nama Penumpang</label>
+        <select name="user_id" id="userIdField">
+            @foreach ($data as $key => $value)
+                <option value="{{$value->id}}">{{$value->name}}</option>
+            @endforeach
+        </select>
         <label for="">Tanggal Keberangkatan</label>
         <input type="datetime-local" name="tanggal_keberangkatan" id="tanggal_keberangkatan" placeholder="tanggal berapa dek" class="form-control"> <br />
 
