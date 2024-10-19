@@ -29,12 +29,31 @@ class TiketController extends Controller
     /**
      * Store a newly created resource in storage.
      */
+    // public function store(Request $request)
+    // {
+    //     $data = $request -> all();
+    //     unset($data['_token']);
+    //     Tiket::insert(values:$data);
+    //     return redirect('/show_data');
+    // }
     public function store(Request $request)
     {
+      $request->validate([
+        'user_id' => 'required|exists:users,id',
+        'tanggal_keberangkatan' => 'required',
+        'no_kursi' => 'required|string|max:255',
+        'asal' => 'required|string|max:255',
+        'tujuan' => 'required|string|max:255',
+      ]);
+
+      try{
         $data = $request -> all();
         unset($data['_token']);
         Tiket::insert(values:$data);
-        return redirect('/show_data');
+        return redirect('/show_data') -> with('Succes', 'data berhasil disimpan guys.');
+      } catch (\Exception $e){
+        return redirect()->back()->withErrors(['error' => 'terjadi kesalahan saat menyimpan data.']);
+      }
     }
 
     /**
