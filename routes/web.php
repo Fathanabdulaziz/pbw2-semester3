@@ -1,48 +1,41 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Coba;
-use App\Http\Controllers\PhonesController;
-use App\Http\Controllers\RegistrasiSiswaController;
 use App\Http\Controllers\TiketController;
-use App\Models\phones;
+use App\Http\Controllers\ProfileController;
+use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
 });
-
-Route::get('/belajar', [Coba::class, 'index']);
-
-Route::get('/hello', function () {
-    echo '<h1>Hello World </h1>';
-    echo '<p>Sedang belajar Laravel</p>';
+Route::get('/home', function () {
+    return view('home');
 });
 
-Route::GET('registrasi', [RegistrasiSiswaController::class,'regis']);
-Route::POST('registrasi', [RegistrasiSiswaController::class,'store']);
 
-Route::GET('/tiket', [TiketController::class,'index']);
-Route::POST('/tiket', [TiketController::class,'store']);
-Route::GET('/show_data', [TiketController::class,'show']);
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::GET('/tiket/one', [PhonesController::class,'relasiOneToOne']);
-
-Route::GET('/tiket/data', [TiketController::class,'relasiOneToMany']);
-
-Route::get('/Fathan', function () {
-        date_default_timezone_set("Asia/Jakarta");
-            $hour = date ('h');
-            if ($hour >= 4 && $hour <= 11){
-                $Selamat = "Selamat pagi, ";
-            } elseif ($hour >= 12 && $hour <= 3){
-                $Selamat = "Selamat siang, ";
-            } elseif ($hour >=4 && $hour <= 6){
-                $Selamat = "Selamat sore, ";
-            } elseif ($hour >= 7 && $hour <= 3){
-                $Selamat = "Selamat malam, ";
-            }
-        return '<h1>'.$Selamat.'Fathan</h1>' ;
-    });
+Route::get('/show_data', function () {
+    return view('Table');
+})->middleware(['checkAdmin'])->name('result');
 
 
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/tiket', [TiketController::class,'index']);
+    Route::post('/tiket', [TiketController::class,'store']);
+});
 
+
+// Route::middleware('checkAdmin')->group(function () {
+//     Route::get('/show_data', [TiketController::class,'show'])->name('result');
+// });
+
+// Route::GET('/tiket', [TiketController::class,'index']);
+// Route::POST('/tiket', [TiketController::class,'store']);
+// Route::GET('/show_data', [TiketController::class,'show']);
+
+require __DIR__.'/auth.php';
