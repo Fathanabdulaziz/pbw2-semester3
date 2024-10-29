@@ -59,11 +59,16 @@ class TiketController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Tiket $tiket)
+    public function show()
     {
         $tiket = Tiket::all();
         return view('result_tiket', compact('tiket'));
     }
+    // public function show(Tiket $tiket)
+    // {
+    //     $tiket = Tiket::all();
+    //     return view('result_tiket', compact('tiket'));
+    // }
 
     /**
      * Show the form for editing the specified resource.

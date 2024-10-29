@@ -3,6 +3,7 @@
 use App\Http\Controllers\TiketController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Middleware\UserMiddleware;
 
 Route::get('/', function () {
     return view('welcome');
@@ -11,14 +12,20 @@ Route::get('/home', function () {
     return view('home');
 });
 
+Route::get('/guest', function () {
+    return view('tampilan_guest');
+})->name('guest');
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('/show_data', function () {
-    return view('Table');
-})->middleware(['checkAdmin'])->name('result');
+
+
+// Route::get('/dashboard/show_data', function () {
+//     return view('Table');
+// })->middleware(['checkAdmin'])->name('result');
 
 
 Route::middleware('auth')->group(function () {
@@ -30,9 +37,9 @@ Route::middleware('auth')->group(function () {
 });
 
 
-// Route::middleware('checkAdmin')->group(function () {
-//     Route::get('/show_data', [TiketController::class,'show'])->name('result');
-// });
+Route::middleware(UserMiddleware::class)->group(function () {
+    Route::get('/show_data', [TiketController::class, 'show'])->name('result');
+});
 
 // Route::GET('/tiket', [TiketController::class,'index']);
 // Route::POST('/tiket', [TiketController::class,'store']);
